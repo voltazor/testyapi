@@ -51,5 +51,4 @@ production:
   <<: *default
   database: testapi_production
   username: testapi
-  adapter: mysql2
   password: <%= ENV['TESTAPI_DATABASE_PASSWORD'] %>
