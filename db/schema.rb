@@ -25,10 +25,14 @@ ActiveRecord::Schema.define(version: 20170802230244) do
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",      null: false
     t.string   "password",   null: false
+    t.string   "token"
+    t.string   "string"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["id"], name: "index_users_on_id", using: :btree
+    t.index ["token"], name: "index_users_on_token", unique: true, using: :btree
   end
 
   add_foreign_key "posts", "users"

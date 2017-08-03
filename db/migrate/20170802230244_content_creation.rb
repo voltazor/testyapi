@@ -3,11 +3,14 @@ class ContentCreation < ActiveRecord::Migration
     create_table :users do |t|
       t.string :email, null: false
       t.string :password, null: false
+      t.string :token, :string
       t.string :name
       t.timestamps
     end
 
     add_index :users, :id
+    add_index :users, :email, unique: true
+    add_index :users, :token, unique: true
 
     create_table :posts do |t|
       t.string :text
