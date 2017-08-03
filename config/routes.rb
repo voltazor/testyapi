@@ -2,7 +2,13 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  get 'api' => 'home#index_json'
+  get 'api' => 'home#get'
+
+  post 'api' => 'home#post'
+
+  put 'api' => 'home#put'
+
+  delete 'api' => 'home#delete'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
