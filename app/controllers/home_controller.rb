@@ -6,7 +6,7 @@ class HomeController < ApplicationController
     @routes = []
     routes = Sextant.format_routes
     routes.each do |r|
-      if r[:path].include?('api')
+      if r[:path].include?('api') or r[:path].include?('user')
         i = r[:path].index('(.:format)')
         r[:path] = r[:path][0, i]
         @routes << r
