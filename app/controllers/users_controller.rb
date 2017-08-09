@@ -6,13 +6,25 @@ class UsersController < ApplicationController
     render json: format_users(User.all)
   end
 
+  def login
+    user = User.where(email: params[:email]).first
+    puts params[:email]
+    puts params[:password]
+    if user.nil?
+      render json: ErrorSerializer.new('User not found'), status: 404
+    elsif user.password.eql?(params[:password])
+      render json: UserSerializer.new(get_user(user.id), true)
+    else
+      render json: ErrorSerializer.new('User not found'), status: 404
+    end
+  end
+
   def create
     begin
       @user = User.new(email: params[:email], password: params[:password], name: params[:name])
       if @user.save
         @user.token = Digest::SHA2.hexdigest(@user.id.to_s + @user.email + @user.password)
         @user.save
-        # redirect_to @user
         render json: UserSerializer.new(@user,  true)
       else
         render json: ErrorSerializer.new('failed'), status: 500
@@ -64,7 +76,7 @@ class UsersController < ApplicationController
     else
       if header.eql?(user.token)
         User.delete(params[:id])
-        render plain: 'Success', status: 200
+        render json: ResultSerializer.new('Success'), status: 200
       else
         render json: ErrorSerializer.new('Unauthorized'), status: 401
       end
@@ -97,6 +109,14 @@ class UsersController < ApplicationController
         @password = user.password
         @token = user.token
       end
+    end
+
+  end
+
+  class ResultSerializer
+
+    def initialize(result)
+      @result = result
     end
 
   end

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   delete 'api' => 'home#delete'
 
+  post 'login' => 'users#login'
+
   resources :users, only: [:index, :show, :create, :update, :destroy]
 
   # The priority is based upon order of creation: first created -> highest priority.
