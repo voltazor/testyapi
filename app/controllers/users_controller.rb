@@ -8,8 +8,6 @@ class UsersController < ApplicationController
 
   def login
     user = User.where(email: params[:email]).first
-    puts params[:email]
-    puts params[:password]
     if user.nil?
       render json: ErrorSerializer.new('User not found'), status: 404
     elsif user.password.eql?(params[:password])
