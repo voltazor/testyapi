@@ -49,7 +49,7 @@ class UsersController < ApplicationController
           user.password = params[:password]
         end
         user.save
-        render plain: 'Success', status: 200
+        render json: UserSerializer.new(user,  true)
       else
         render json: ErrorSerializer.new('Unauthorized'), status: 401
       end
