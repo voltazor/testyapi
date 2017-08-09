@@ -24,10 +24,11 @@ class UsersController < ApplicationController
 
   def show
     user = get_user(params[:id])
+    header = request.headers['Authorization'].to_s
     if user.nil?
       render json: ErrorSerializer.new('User not found'), status: 404
     else
-      render json: UserSerializer.new(get_user(params[:id]),  false)
+      render json: UserSerializer.new(get_user(params[:id]),  header.eql?(user.token))
     end
   end
 
@@ -92,9 +93,10 @@ class UsersController < ApplicationController
       @id = user.id
       @email = user.email
       @name = user.name
-      # if show_token
+      if show_token
+        @password = user.password
         @token = user.token
-      # end
+      end
     end
 
   end
