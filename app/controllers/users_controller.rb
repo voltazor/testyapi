@@ -58,6 +58,7 @@ class UsersController < ApplicationController
         unless params[:password].nil?
           user.password = params[:password]
         end
+        user.avatar = params[:avatar]
         user.save
         render json: UserSerializer.new(user,  true)
       else
@@ -127,7 +128,9 @@ class UsersController < ApplicationController
       @id = user.id
       @email = user.email
       @name = user.name
-      @avatar = user.avatar
+      unless user.avatar.nil?
+        @avatar = user.avatar
+      end
       if show_token
         @password = user.password
         @token = user.token
