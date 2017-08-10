@@ -75,7 +75,9 @@ class UsersController < ApplicationController
     else
       if header.eql?(user.token)
         User.delete(params[:id])
-        FileUtils.rm(Rails.root.join('public', "uploads/avatar#{params[:id]}.jpg"))
+        unless user.avatar.nil?
+          FileUtils.rm(Rails.root.join('public', "uploads/avatar#{params[:id]}.jpg"))
+        end
         render json: ResultSerializer.new('Success'), status: 200
       else
         render json: ErrorSerializer.new('Unauthorized'), status: 401
