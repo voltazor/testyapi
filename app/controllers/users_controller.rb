@@ -84,15 +84,17 @@ class UsersController < ApplicationController
 
   def upload_avatar
     header = request.headers['Authorization'].to_s
-    user = User.where(token: header).first
+    user = get_user_with_token(header)
     if user.nil?
       render json: ErrorSerializer.new('User not found'), status: 404
     else
       uploaded_io = params[:image]
       avatar_path = "uploads/avatar#{user.id}.jpg"
+      puts avatar_path
       File.open(Rails.root.join('public', avatar_path), 'wb') do |file|
         file.puts uploaded_io.read
         user.avatar = "#{root_url}#{avatar_path}"
+        puts user.avatar
         user.save
         render json: UserSerializer.new(user, true)
       end
@@ -105,6 +107,10 @@ class UsersController < ApplicationController
 
   def get_user(user_id)
     User.where(id: user_id).first
+  end
+
+  def get_user_with_token(token)
+    User.where(token: token).first
   end
 
   def format_users(users)
