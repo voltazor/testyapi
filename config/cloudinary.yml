@@ -1,0 +1,18 @@
+development:
+  cloud_name: dec205o9s
+  api_key: '342652538566325'
+  api_secret: EaYv0SrySDyVyY3wLfKcTYeYSPU
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: dec205o9s
+  api_key: '342652538566325'
+  api_secret: EaYv0SrySDyVyY3wLfKcTYeYSPU
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: dec205o9s
+  api_key: '342652538566325'
+  api_secret: EaYv0SrySDyVyY3wLfKcTYeYSPU
+  enhance_image_tag: true
+  static_image_support: false

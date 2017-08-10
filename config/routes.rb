@@ -12,6 +12,10 @@ Rails.application.routes.draw do
 
   post 'login' => 'users#login'
 
+  post 'register' => 'users#create'
+
+  post 'avatar' => 'users#upload_avatar'
+
   resources :users, only: [:index, :show, :create, :update, :destroy]
 
   # The priority is based upon order of creation: first created -> highest priority.

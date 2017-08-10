@@ -81,6 +81,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def upload_avatar
+    # uploaded_io = params[:image]
+    # # stream = open(uploaded_io)
+    # File.open(Rails.root.join('public', 'uploads', 'img.png'), 'wb') do |file|
+    #   file.puts uploaded_io.read
+    # end
+  end
+
   def check_token(user_id, token)
     get_user(user_id).token.eql?(token)
   end
