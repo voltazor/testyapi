@@ -15,19 +15,27 @@ class HomeController < ApplicationController
   end
 
   def get
-    render json: 'get'
+    render json: MethodSerializer.new('get')
   end
 
   def post
-    render json: 'post'
+    render json: MethodSerializer.new('post')
   end
 
   def put
-    render json: 'put'
+    render json: MethodSerializer.new('put')
   end
 
   def delete
-    render json: 'delete'
+    render json: MethodSerializer.new('delete')
+  end
+
+  class MethodSerializer
+
+    def initialize(method)
+      @method = method
+    end
+
   end
 
 end
