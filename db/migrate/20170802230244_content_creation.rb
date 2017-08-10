@@ -3,7 +3,8 @@ class ContentCreation < ActiveRecord::Migration
     create_table :users do |t|
       t.string :email, null: false
       t.string :password, null: false
-      t.string :token, :string
+      t.string :avatar
+      t.string :token
       t.string :name
       t.timestamps
     end

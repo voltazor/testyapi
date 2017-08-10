@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   post 'register' => 'users#create'
 
-  post 'avatar' => 'users#upload_avatar'
+  post 'users/avatar' => 'users#upload_avatar'
 
   resources :users, only: [:index, :show, :create, :update, :destroy]
 

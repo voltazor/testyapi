@@ -74,6 +74,7 @@ class UsersController < ApplicationController
     else
       if header.eql?(user.token)
         User.delete(params[:id])
+        FileUtils.rm(Rails.root.join('public', "uploads/avatar#{params[:id]}.jpg"))
         render json: ResultSerializer.new('Success'), status: 200
       else
         render json: ErrorSerializer.new('Unauthorized'), status: 401
@@ -82,11 +83,20 @@ class UsersController < ApplicationController
   end
 
   def upload_avatar
-    # uploaded_io = params[:image]
-    # # stream = open(uploaded_io)
-    # File.open(Rails.root.join('public', 'uploads', 'img.png'), 'wb') do |file|
-    #   file.puts uploaded_io.read
-    # end
+    header = request.headers['Authorization'].to_s
+    user = User.where(token: header).first
+    if user.nil?
+      render json: ErrorSerializer.new('User not found'), status: 404
+    else
+      uploaded_io = params[:image]
+      avatar_path = "uploads/avatar#{user.id}.jpg"
+      File.open(Rails.root.join('public', avatar_path), 'wb') do |file|
+        file.puts uploaded_io.read
+        user.avatar = "#{root_url}#{avatar_path}"
+        user.save
+        render json: UserSerializer.new(user, true)
+      end
+    end
   end
 
   def check_token(user_id, token)
@@ -111,6 +121,7 @@ class UsersController < ApplicationController
       @id = user.id
       @email = user.email
       @name = user.name
+      @avatar = user.avatar
       if show_token
         @password = user.password
         @token = user.token
