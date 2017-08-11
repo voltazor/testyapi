@@ -91,11 +91,18 @@ class UsersController < ApplicationController
     if user.nil?
       render json: ErrorSerializer.new('User not found'), status: 404
     else
-      uploaded_io = params[:image]
+      uploaded = params[:image]
       avatar_path = "uploads/avatar#{user.id}.jpg"
       puts avatar_path
       File.open(Rails.root.join('public', avatar_path), 'wb') do |file|
-        file.puts uploaded_io.read
+        if uploaded.is_a? String
+          file.puts uploaded
+        elsif uploaded.is_a? ActionDispatch::Http::UploadedFile
+          file.puts uploaded.read
+        else
+          render json: ErrorSerializer.new('Wrong attachment'), status: 500
+          return
+        end
         user.avatar = "#{root_url}#{avatar_path}"
         puts user.avatar
         user.save
